@@ -9,8 +9,9 @@
 function g_est = kNN_denoise(z,x,k)
 
 
-[index_nn,D] = knnsearch(x,x,'K',k);
+%[index_nn,D] = knnsearch(x,x,'K',k);
 
+index_nn = knn_vector(x,k);
 g_est = zeros(size(z));
 
 for i=1:length(x)
