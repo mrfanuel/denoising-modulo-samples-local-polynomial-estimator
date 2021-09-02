@@ -2,13 +2,14 @@
 
 %% Beware: not vectorized and only for 1d
 
-function g_est = localPoly_denoise(z,x,h)
+function g_est = localPoly_denoise(z,x,h,l)
     %localPoly_denoise - Description
     %
     % Syntax: g_est = localPoly_denoise(x,l)
     % input: z complex n x 1 vector (signal value on the grid nodes)
     %        x real n x 1 vector (grid nodes positions) 
     %        h positive real number (window width)
+    %        l positive integer
     % output: g_est complex n x 1 vector (local polynomial estimate on the grid)
     
     n = size(z,1);
