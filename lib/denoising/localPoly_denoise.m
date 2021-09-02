@@ -25,7 +25,7 @@ function g_est = localPoly_denoise(z,x,h,l)
                 xj = x(j);
                 sij = (xj-xi)/h;
                 U_ixj = polynomialFeatureMap(sij,l);
-                B_nxj = B_nxj + U_ixj * U_ixj' * kernel(si);
+                B_nxj = B_nxj + U_ixj * U_ixj' * kernel(sij);
             end
             B_nxj = B_nxj/(n*h);
     
@@ -38,7 +38,7 @@ function g_est = localPoly_denoise(z,x,h,l)
                 sij = (xj-xi)/h;
                 zi = z(i);
                 U_ixj = polynomialFeatureMap(sij,l);
-                a_nxj = a_nxj + zi * U_ixj * kernel(si);
+                a_nxj = a_nxj + zi * U_ixj * kernel(sij);
             end
             a_nxj = a_nxj/(n*h);
     
