@@ -43,7 +43,7 @@ function g_est = localPoly_denoise(z,x,h)
     
             %% calculate estimator
     
-            theta_hat_nx = lsqminnorm(B_nx,a_nx);
+            theta_hat_nx = lsqminnorm(B_nxj,a_nxj);
     
             g_est(j) = theta_hat_nx(1);
             % Beware: rounding on the product manifold is done elwehere
