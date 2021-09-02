@@ -8,7 +8,7 @@ clc
 addpath(genpath('lib'))  
 
 % choose the method below
-method = 'kNN';%'TRS';%'UCQP';
+method = 'localPoly';%'kNN';%'TRS';%'UCQP';
 disp(method)
 disp('Started')
 
@@ -27,6 +27,8 @@ elseif strcmp(method,'UCQP')
 elseif strcmp(method,'TRS')
     C_TRS =  c;
     lambda = C_TRS*(range_n.^(10/3)).^(1/4);
+elseif strcmp(method,'localPoly')
+    h = 0.1; %% length of rectangular window
 end
 
 
@@ -98,7 +100,11 @@ for index = 1:length(range_n)
             reg_param = lambda(index);
             gest_trs = TRS_denoise(z,L,reg_param,n);
             gest_trs_proj = project_manifold(gest_trs);
-            f_mod1_denoised = extract_modulo(gest_trs_proj); 
+            f_mod1_denoised = extract_modulo(gest_trs_proj);
+        elseif strcmp(method,'localPoly')
+            gest_localPoly = localPoly_denoise(z,x,h);
+            gest_localPoly_proj = project_manifold(gest_localPoly);
+            f_mod1_denoised = extract_modulo(gest_localPoly_proj);  
         end
      
         err_wrap_around_temp(iter) = MS_wrap_around_error(f_mod1_denoised, f_mod1_clean);
@@ -182,7 +188,7 @@ plot(range_n, err_wrap_around_noisy, '-k<', 'MarkerSize', 4, 'markerfacecolor','
 errorbar(range_n, err_wrap_around_noisy, std_err_wrap_around_noisy,'k' )
 
 xlabel('$n$','Interpreter','latex', 'FontSize', 25)
-ylabel('Wrap around RMSE','Interpreter','latex', 'FontSize', 25)
+ylabel('Wrap around MSE','Interpreter','latex', 'FontSize', 25)
 
 place = strcat(strcat('/ex1_paper_err_mod1_',method),'.png');
 folder = strcat('figures/',method);
@@ -202,7 +208,7 @@ plot(range_n, err_unwrapped_noisy, '-r<', 'MarkerSize', 4, 'markerfacecolor','r'
 errorbar(range_n, err_unwrapped_noisy, std_err_unwrapped_noisy,'r' )
 
 xlabel('$n$','Interpreter','latex', 'FontSize', 25)
-ylabel('RMSE','Interpreter','latex', 'FontSize', 25)
+ylabel('MSE','Interpreter','latex', 'FontSize', 25)
 place = strcat(strcat('/ex1_paper_err_unwrapped_',method),'.png');
 folder = strcat('figures/',method);
 place = strcat(folder,place);

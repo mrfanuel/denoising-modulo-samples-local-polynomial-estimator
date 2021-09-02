@@ -20,7 +20,7 @@ c = 0.04;
 range_n = 100:50:1000; % range of n values
 
 if strcmp(method,'kNN')
-    C_kNN = 0.07;%
+    C_kNN = 0.09; %0.07;%
     k = ceil(C_kNN*(range_n.^(2/3)).*(log(range_n).^(1/3))); %% number of neigbours
 elseif strcmp(method,'UCQP')
     C_UCQP =  c;
@@ -28,6 +28,8 @@ elseif strcmp(method,'UCQP')
 elseif strcmp(method,'TRS')
     C_TRS =  c;
     lambda = C_TRS*(range_n.^(10/3)).^(1/4);
+elseif strcmp(method,'localPoly')
+    h = 0.1; %% length of rectangular window
 end
 
 
@@ -99,6 +101,10 @@ for index = 1:length(range_n)
             gest_trs = TRS_denoise(z,L,reg_param,n);
             gest_trs_proj = project_manifold(gest_trs);
             f_mod1_denoised = extract_modulo(gest_trs_proj); 
+        elseif strcmp(method,'localPoly')
+            gest_localPoly = localPoly_denoise(z,x,h);
+            gest_localPoly_proj = project_manifold(gest_localPoly);
+            f_mod1_denoised = extract_modulo(gest_localPoly_proj);  
         end
      
         err_wrap_around_temp(iter) = MS_wrap_around_error(f_mod1_denoised, f_mod1_clean);
