@@ -14,9 +14,9 @@ disp('Started')
 
 %% Parameters
 sigma = 0.12; % noise level 
-n_MC = 50; % number of Monte-Carlo runs
+n_MC = 1; % number of Monte-Carlo runs
 
-range_n = 100:50:1000; % range of n values
+range_n = 100:50:100; % range of n values
 c = 0.04;%0.07;
 if strcmp(method,'kNN')
     C_kNN = 0.09; %0.07;%
@@ -28,7 +28,9 @@ elseif strcmp(method,'TRS')
     C_TRS =  c;
     lambda = C_TRS*(range_n.^(10/3)).^(1/4);
 elseif strcmp(method,'localPoly')
-    h = 0.1; %% length of rectangular window
+    l = 2; beta = 2.4; C_lp = 0.05;
+    h = C_lp*(log(range_n)./range_n).^(beta/(2*beta+1)); %% length of rectangular window
+    
 end
 
 
@@ -80,7 +82,7 @@ for index = 1:length(range_n)
     end
 
     for iter= 1:n_MC
-
+        iter
         f_noise = f_clean + sigma * randn(n,1); 
         y = mod(f_noise,1);  
         z = exp(1i*2*pi*y);  % nx1 vector
@@ -102,7 +104,7 @@ for index = 1:length(range_n)
             gest_trs_proj = project_manifold(gest_trs);
             f_mod1_denoised = extract_modulo(gest_trs_proj);
         elseif strcmp(method,'localPoly')
-            gest_localPoly = localPoly_denoise(z,x,h);
+            gest_localPoly = localPoly_denoise(z,x,h,l);
             gest_localPoly_proj = project_manifold(gest_localPoly);
             f_mod1_denoised = extract_modulo(gest_localPoly_proj);  
         end
