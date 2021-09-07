@@ -197,6 +197,11 @@ folder = strcat('figures/',method);
 place = strcat(folder,place);
 saveas(gcf,place)
 
+% save results
+nameFile = strcat(strcat('/ex2_paper_err_mod1_',method),'.mat');
+nameFile = strcat(folder,nameFile);
+save(nameFile, 'range_n',range_n,'err_wrap_around', err_wrap_around,'std_err_wrap_around', std_err_wrap_around,'err_wrap_around_noisy', err_wrap_around_noisy, 'std_err_wrap_around_noisy',std_err_wrap_around_noisy)
+
 %%%%%%%%%%%%%%% MSE %%%%%%%%%%%%%%% 
 
 close all;
@@ -215,6 +220,11 @@ place = strcat(strcat('/ex1_paper_err_unwrapped_',method),'.png');
 folder = strcat('figures/',method);
 place = strcat(folder,place);
 saveas(gcf,place)
+
+% save results
+nameFile = strcat(strcat('/ex2_paper_err_unwrapped_',method),'.mat');
+nameFile = strcat(folder,nameFile);
+save(nameFile, 'range_n',range_n,'err_unwrapped', err_unwrapped,'std_err_unwrapped', std_err_unwrapped,'err_unwrapped_noisy', err_unwrapped_noisy, 'std_err_unwrapped_noisy',std_err_unwrapped_noisy)
 
 disp('ended')
 
