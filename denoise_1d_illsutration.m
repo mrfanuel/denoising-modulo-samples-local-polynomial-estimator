@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Code for the modulo denoising via kNN and unwrapping
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+close all
 clear all
 clc
 
@@ -14,7 +14,7 @@ disp('Started')
 %% Parameters
 sigma = 0.12; % noise level 
 
-n = 200; 
+n = 600;
 
 l = 2; beta = 2.4; C_lp = 0.1;
 h = C_lp*(log(n)./n).^(beta/(2*beta+1)); %% length of rectangular window
